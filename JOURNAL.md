@@ -47,7 +47,7 @@ Anyways, this is what I ended up with in the end for this symbol (so much time s
 
 Also sourced a 24 MHz crystal
  
-**Total Time Spent**: 1h 50m
+**Total Time Spent:** 1h 50m
 
 # 7/25/26: Sourced main parts (hub controller & PD controller)
 
