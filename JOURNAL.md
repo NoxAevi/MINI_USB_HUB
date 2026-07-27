@@ -5,6 +5,50 @@ description: "Mini USB Hub mainly used as a demo for USB PD pass-through and swa
 created_at: "2026-07-25"
 ---
 
+# 7/27/26:
+
+I started out by creating a kicad project and then going through the main components and adding the connections on the schematic
+
+For the USB2532 symbol, I wound up creating my own because there was no suitable one (I checked the USB2514B symbol in kicad, but certain stuff wasn't really applicable for the USB2532)
+
+I also couldn't really use this diagram for some of the pins (should be self-explanatory why)
+
+<img width="942" height="919" alt="image" src="https://github.com/user-attachments/assets/28c25124-f376-4ada-8e9f-a01d2d16dcdf" />
+
+When going through the documentation, there was an ability to disable ports, and I had to confirm that there would be integrated resistors to prevent this (so I wouldn't have to add external ones)
+
+<img width="966" height="103" alt="image" src="https://github.com/user-attachments/assets/bffedc53-acbb-4cc3-8245-72c1721dc18a" />
+
+When looking at the direction for one of the pins, I got confused on whether or not it was supposed to be an output or input
+
+<img width="955" height="108" alt="image" src="https://github.com/user-attachments/assets/b335a123-a11e-4054-be62-6c9f8837d8d8" />
+
+This makes it seem like we have a choice to either enable or disable this pin,but O8 is an output buffer type
+
+<img width="952" height="37" alt="image" src="https://github.com/user-attachments/assets/33bda040-2a50-419c-b971-4be3231bc685" />
+
+I decided to just make the symbol and deal with this later
+
+When looking at the application usage to see what the UART would be used for, I saw that they included 5 ports (including upstream)
+
+
+<img width="984" height="622" alt="image" src="https://github.com/user-attachments/assets/bf1e53c0-7a7c-4297-a284-cd3647df72cc" />
+
+However, it's clear that there should only be 3 ports (including 1 upstream)
+
+<img width="1014" height="334" alt="image" src="https://github.com/user-attachments/assets/09035556-e21f-421e-a966-ce6ef7e37ff5" />
+
+This doesn't really make sense at all, so I guess I gotta email microchip about this (to also find out what the UART is supposed to be used for, if anything). The datasheet for the hub doesn't really mention it aside from it existing, even excluding it from the features part at the top
+
+Anyways, this is what I ended up with in the end for this symbol (so much time spent on just one symbol :sob:, though I believe that the onsemi docs are better, so it should be much quicker tmr [since there also doesn't exist a symbol for the FUSB15200/PD controller])
+
+<img width="553" height="490" alt="image" src="https://github.com/user-attachments/assets/f43b5389-e39e-40e3-80db-db5db3d95fca" />
+
+
+Also sourced a 24 MHz crystal
+ 
+**Total Time Spent**: 1h 50m
+
 # 7/25/26: Sourced main parts (hub controller & PD controller)
 
 *This continues from the journal on 7/23/26 of my bigger USB hub project*
