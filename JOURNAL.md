@@ -5,7 +5,7 @@ description: "Mini USB Hub mainly used as a demo for USB PD pass-through and swa
 created_at: "2026-07-25"
 ---
 
-# 7/27/26:
+# 7/27/26: USB2532 Symbol
 
 I started out by creating a kicad project and then going through the main components and adding the connections on the schematic
 
