@@ -4,6 +4,17 @@ author: "NoxAevi"
 description: "Mini USB Hub mainly used as a demo for USB PD pass-through and swapping the host port w/ the charge/data port"
 created_at: "2026-07-25"
 ---
+# 7/27/26: Clearing up stuff
+
+I just realized that the part number on the board isn't the same one as on the part page I was on, which accounts for the discrepency
+
+I do feel bad that I emailed them about this (though I still wanna know what use the UART has)
+
+I still kinda don't get why they have this under the design resources for a clearly different port
+
+<img width="1759" height="886" alt="image" src="https://github.com/user-attachments/assets/dc22cd3f-ce04-4936-9a57-0c3c4465b78e" />
+
+**Total Time Spent:** 5m
 
 # 7/27/26: USB2532 Symbol
 
