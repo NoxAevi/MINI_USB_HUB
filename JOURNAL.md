@@ -4,6 +4,64 @@ author: "NoxAevi"
 description: "Mini USB Hub mainly used as a demo for USB PD pass-through and swapping the host port w/ the charge/data port"
 created_at: "2026-07-25"
 ---
+
+# 7/28/26: Started Schematic
+
+On the UART from yesterday, it seems that it's a part of a USB to UART thingy that I could use (but also have no use for), so I'll just put those as no connects on the schematic
+
+Some configuration pins have other purposes, such as I2C, and it mentions a programming utility for the chip
+
+<img width="969" height="100" alt="image" src="https://github.com/user-attachments/assets/96009e0c-8d84-439d-9123-25cacec98562" />
+
+However, when looking at the docs for the utility, it doesn't really mention how we're supposed to flash it, so I'll have to determine if i'm going to need the tool or if just the configuration pins should be enough
+
+However, it's also programmable via I2C (which i'd prefer to avoid, but would probably be the option i go with if i need to do more programming)
+
+Though in the end, it seems that the configuration pins are plenty to achieve what I want
+
+Then, for the BC_EN pins, i had to confirm whether USB's battery charging protocol (and disabling/enabling it) would have any impact on USB PD
+
+Thanks to an [article from TI](https://www.ti.com/lit/an/slvae17a/slvae17a.pdf?ts=1785274748578), I learned that BC uses the data pins to advertise while I believe that usb PD only uses the CC pins
+
+<img width="1233" height="231" alt="image" src="https://github.com/user-attachments/assets/4ced98c7-54cd-40ca-bf47-bec24322336e" />
+
+When I got to the overcurrent pins, I had to think a bit about what to do about USB PD (since the current would 1: have to exceed stuff like 5V 2A, and 2: potentially go in the reverse direction)
+
+I believe that the best way to move forward would be to exclude an OCS detector on the downstream 1 port (the one that can be swapped with the host port)
+But since I'm not really sure, I'll put this pin on hold and ask around on somewhere like reddit or the Kicad discord server (maybe both idk, depends)
+
+For the VBUS_DET pin, I was going to use the PD controller (which has GPIO pins n stuff), but it seems that i'm able to just keep it high (since it won't be directly connected to the host anyways, and I have a way to reset it using the RESET_N pin already)
+
+<img width="1105" height="66" alt="image" src="https://github.com/user-attachments/assets/eeaa8541-b7c5-41a4-b218-61ac78bdf445" />
+
+For the PRTCTL pins, I initially thought that I should use a pulldown to disable BC, but in the schematic from earlier, they have headers to enable/disable them with shunts, which probably means that leaving it floating is fine
+
+They also use it as a part of the OCS stuff
+
+<img width="589" height="132" alt="image" src="https://github.com/user-attachments/assets/df201265-9993-43cc-9382-4ae5f60a9741" />
+
+<img width="748" height="397" alt="image" src="https://github.com/user-attachments/assets/efaed61f-bf87-4c86-83ce-189e32dbb66a" />
+
+Since downstream port 2 is only going to be a downstream port, I decided that it'd be best to include the OCS stuff for that port now 
+
+The example schematic uses the AP2111 from diodes inc, and since it isn't that expensive, I'll probably be using it too
+
+However, after a quick search on digikey I was able to find one that was cheaper by about 10 cents, so I'll be using that one instead
+
+<img width="1753" height="543" alt="image" src="https://github.com/user-attachments/assets/67059f79-cfcd-4836-8c1a-8128353bec51" />
+
+
+<img width="1374" height="636" alt="image" src="https://github.com/user-attachments/assets/44301b5f-5bf2-4640-b176-3a041a75f4a4" />
+
+I didn't finish adding the capacitors for it, so I'll be leaving that for tomorrow
+
+Anyways, this is what I got so far
+
+<img width="660" height="421" alt="image" src="https://github.com/user-attachments/assets/9de71415-7721-4954-876c-e14860d712df" />
+
+
+**Total Time Spent:** 2h
+
 # 7/27/26: Clearing up stuff
 
 I just realized that the part number on the board isn't the same one as on the part page I was on, which accounts for the discrepency
