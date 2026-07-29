@@ -5,6 +5,64 @@ description: "Mini USB Hub mainly used as a demo for USB PD pass-through and swa
 created_at: "2026-07-25"
 ---
 
+# 7/29/26: Moar schematic pains (new OCS detector research too)
+
+I started off today with finishing the stuff for the over-current IC before sourcing and starting on this downstream USB C port
+
+<img width="514" height="304" alt="image" src="https://github.com/user-attachments/assets/591d408d-c644-4222-91db-77f1a935a55e" />
+
+When I got to the CC pin configuration, I scrolled through an application note for the usb hub, and found that the swap is meant to make it easier to route. This makes me wonder about what would happen if I were to enable the swap while it's powered on rather than tying it to low/high
+
+<img width="1174" height="208" alt="image" src="https://github.com/user-attachments/assets/ab150599-8ee5-4c97-b46b-ab348288ab29" />
+
+
+This was when I noticed that there currently wasn't a way to swap the two ports from/to downstream to/from upstream
+
+The datasheet mentions that this can only be done by changing the registers. Thus, I'm gonna have to write down the current configuration I have and then do the stuff required for SMBus/I2C (while also hoping that the FUSB15200/PD controller has I2C host support, which it luckily does)
+
+<img width="726" height="186" alt="image" src="https://github.com/user-attachments/assets/7cc5c087-a6b4-443a-95e8-ebfca135fe2b" />
+
+To enable SMBus, i need pullup resistors, but it wasn't really mentioned in a lot of diagrams
+
+<img width="897" height="291" alt="image" src="https://github.com/user-attachments/assets/f85c0434-ddd5-4d21-8b7b-941ce02c9a2c" />
+
+When going through the datasheet some more, i found that there's supposed to be a third configuration pin? (and yes I confirmed the part number this time)
+
+<img width="1182" height="660" alt="image" src="https://github.com/user-attachments/assets/6e8ef984-a9b2-43eb-99d7-f35fe755e178" />
+
+<img width="1192" height="324" alt="image" src="https://github.com/user-attachments/assets/87ed135e-8029-497d-87ba-18b93a7f3d74" />
+
+My first thought was that the numbers in the first picture were referring to pin numbers (because what else would they realistically point to)
+
+But in reality they dont (especially since the IC only has 36 pins to begin with)
+
+I'll probably just ignore this 
+
+When looking at the schematic for the 2534, I think the resistors I'm supposed to use are the 10k ones
+
+<img width="1315" height="673" alt="image" src="https://github.com/user-attachments/assets/fd17552b-a56e-4995-8ac3-33d61d374cc6" />
+
+What I'm kinda confused about is the need for a usb CC controller since I thought I could do smth similar to how a device's usb cc ports work and use constant resistors
+
+Either way, I was able to source one that I could use for this (which also seems to include an OCS detector since it has a fault pin similar to the existing OCS i'm using)
+
+<img width="682" height="373" alt="image" src="https://github.com/user-attachments/assets/6850b6dc-64d9-4e24-a89a-5413ba389072" />
+
+This makes me think that the over-current stuff might be handled by the PD controller
+
+After looking at the datasheet for the FUSB, it seems that it isn't handled by the PD controller directly, but they do recommend a current limiter to use, which also works (and also means that I won't need to ask about OCS on downstream port one, but probably still need to ask about it during flex operation)
+
+I also believe changing flex mode on the fly should work just fine considering this statement in the register datasheet
+
+<img width="718" height="126" alt="image" src="https://github.com/user-attachments/assets/29c488c1-1616-473f-b87a-db2bfa89e96e" />
+
+Anyways, the current limiting stuff that I already have is kinda useless cuz the TI stuff replaces it, but before removing it i have to also remove the notes in my sourcing doc related to the specific capacitors
+
+In Kicad, there isn't an existing symbol for the new current limiter/cc controller that I'm gonna be using, so I'll probably be starting tomorrow by working on that  (though there is an existing footprint which is pretty nice)
+
+
+**Total Time Spent:** 1h 50m
+
 # 7/28/26: Started Schematic
 
 On the UART from yesterday, it seems that it's a part of a USB to UART thingy that I could use (but also have no use for), so I'll just put those as no connects on the schematic
