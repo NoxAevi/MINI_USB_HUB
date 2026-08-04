@@ -5,6 +5,37 @@ description: "Mini USB Hub mainly used as a demo for USB PD pass-through and swa
 created_at: "2026-07-25"
 ---
 
+# 8/4/26: OCS for downstream port 2 done
+
+For the OCS during swap, I later realized I could just tie the pins on the USB hub to be inactive and have the PD controller handle it instead
+
+When I wanted to start making the symbol for the TI controller, i couldn't find the project symbols library, and after a bit of searching, it "already exists" even though searching for it yields no results
+
+<img width="1326" height="694" alt="image" src="https://github.com/user-attachments/assets/78233773-9804-49d1-b5ac-1a3cb79d8527" />
+
+Simply restarting kicad fixed it tho, so not too much of a time loss
+
+I was able to finish the symbol pretty fast
+
+<img width="510" height="585" alt="image" src="https://github.com/user-attachments/assets/30f5bfaa-2800-4894-ac9f-1446b7f92c97" />
+
+
+After finishing the symbol for the TI CC controller, I found something kinda interesting
+
+<img width="1201" height="28" alt="image" src="https://github.com/user-attachments/assets/c8b1018e-fab8-478e-a540-b9385aa0c70c" />
+
+<img width="1279" height="252" alt="image" src="https://github.com/user-attachments/assets/cb343b30-9e5b-43fb-85da-609d7cfb32bc" />
+
+
+I might be able to use this pin to determine which side the charger is on (well an equivalent of this pin on the CC controller for the main ports, which seems kinda likely to be included) since a charger shouldn't really be able to accept power at all (from my knowledge)
+
+It didn't take too long to end up finishing the schematic for the USB port and CC controller. I just had to change some capacitor values (like the 150uF on the USBC port to 10uF) and add some new ones on the OCS input. I also looked at the application to confirm I did it right
+
+<img width="586" height="492" alt="image" src="https://github.com/user-attachments/assets/b09cf709-c990-4b9b-8535-7b7b9291f081" />
+
+
+**Total Time Spent:** 1h
+
 # 7/29/26: Moar schematic pains (new OCS detector research too)
 
 I started off today with finishing the stuff for the over-current IC before sourcing and starting on this downstream USB C port
