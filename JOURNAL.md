@@ -5,6 +5,46 @@ description: "Mini USB Hub mainly used as a demo for USB PD pass-through and swa
 created_at: "2026-07-25"
 ---
 
+# 8/6/26: Started w/ PD ctr
+
+Started by reviewing what I did last session, and then decided that the next step would be to get started with the PD controller and work from there (adding stuff like the OCS and whatnot before working on the pcb itself)
+
+There was no existing symbol in kicad, meaning that I'd have to make one myself
+
+When looking at the documentation, I saw that for each port, there were two sets of 2.0 differential pairs, which I dont understand (especially since I don't think this IC needs to have a host side connection for the port)
+
+<img width="1240" height="163" alt="image" src="https://github.com/user-attachments/assets/52c4a3b5-c2c9-4b86-9711-ff5557203075" />
+
+Going through the datasheet, the IC having BC1.2 means that it makes sense for there to be one set of differential pairs for each port, but I still don't really understand why the second one is there
+
+I decided to look at the example to see if that would help me better understand
+
+<img width="1600" height="316" alt="image" src="https://github.com/user-attachments/assets/77708187-d7a4-4ea8-b257-9b14632774ff" />
+
+After making an account, it turns out that this file was actually a brochure with links to other board designs. There was one for the FUSB15201 (not the one I'm planning to use, but seems similar), and when I compared the IC i'm currently using with it, it seems that the FUSB15201 lacks the host side connection
+
+After confirming that the FUSB15200 doesn't really explain it well/at all (so I don't run into the same situation with microchip)
+
+For future situations, I'll most likely be able to look at the design for the FUSB15201 (which a staff member said was a good starting point on a question in their forums)
+
+<img width="838" height="457" alt="image" src="https://github.com/user-attachments/assets/3f6d523b-3671-433d-b6c9-a23de728efb6" />
+
+On another question they just route the host pins to a pinheader, which although helpful in meaning that I (might ?) be able to ignore them. However, it still makes sense to confirm what their exact function is rather than jumping in blindly
+
+<img width="912" height="522" alt="image" src="https://github.com/user-attachments/assets/87862470-4bff-4819-8ba5-4670da28521f" />
+
+Anyways, after asking the question, I believe it might be best to hold off on moving forward with this part until there is a response.
+
+I then proceeded to tidy up the schematic a bit and add the other two connectors
+
+<img width="1201" height="816" alt="image" src="https://github.com/user-attachments/assets/c0b3eff8-b02f-43c9-b6fc-dc77b4ebc04e" />
+
+
+**I also remembered that I didn't fully go through the hub controller's datasheet/checklist, which I should probably do when starting next session**
+
+
+**Total Time Spent:** 1h
+
 # 8/4/26: OCS for downstream port 2 done
 
 For the OCS during swap, I later realized I could just tie the pins on the USB hub to be inactive and have the PD controller handle it instead
